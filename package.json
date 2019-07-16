@@ -1,0 +1,19 @@
+{
+  "name": "generative",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+      "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amstocker/generative.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amstocker/generative/issues"
+  },
+  "homepage": "https://github.com/amstocker/generative#readme"
+}

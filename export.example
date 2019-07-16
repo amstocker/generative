@@ -1,0 +1,2 @@
+#!/bin/bash
+scp ./dist/* USERNAME@euclid.colorado.edu:public_html/projects/odometer/
