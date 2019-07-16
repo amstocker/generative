@@ -4,7 +4,16 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-      "build": "webpack --mode production"
+    "buildjs": "webpack --mode development",
+    "buildjs_final": "webpack --mode production",
+    "buildcss": "lessc src/style.less dist/style.css",
+    "buildcss_final": "lessc -x src/style.less dist/style.css",
+    "build": "run-p buildjs buildcss",
+    "build_final": "run-p buildjs_final buildcss_final",
+    "postbuild": "./export",
+    "postbuild_final": "./export",
+    "clean": "rm dist/bundle.js dist/style.css",
+    "analyze": "webpack --profile --json > webpack-stats.json"
   },
   "repository": {
     "type": "git",
