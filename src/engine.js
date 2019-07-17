@@ -24,13 +24,13 @@ function randMonoSynthConfig () {
             Q: randRange(1, 4)
         },
         envelope: {
-            attack: randRange(0.01, 0.05),
+            attack: randRange(0.01, 1),
             decay: 0.10,
             sustain: 0.20,
             release: randRange(10, 20)
         },
         filterEnvelope: {
-            attack: randRange(0.01, 0.05),
+            attack: randRange(0.01, 1),
             attackCurve: "linear",
             decay: 0.4,
             decayCurve: "exponential",
@@ -38,16 +38,20 @@ function randMonoSynthConfig () {
             release: randRange(5, 30),
             releaseCurve: "linear",
             baseFrequency: 20,
-            octaves: 5
+            octaves: randInt(2, 5)
         }
     };
 };
+
+function randHarmonicity (a, b, c) {
+    return Math.pow(2, randInt(a, b)) + c * Math.random();
+}
 
 function randDuoSynthConfig () {
     return {
         vibratoAmount: randRange(0.01, 0.5),
         vibratoRate: randRange(.1, 1),
-        harmonicity: randRange(0.01, .1),
+        harmonicity: randHarmonicity(-1, 3, 0.01),
         voice0: randMonoSynthConfig(),
         voice1: randMonoSynthConfig()
     };
@@ -61,7 +65,7 @@ export default class {
             let synth = new Tone.DuoSynth(config).toMaster();
             return synth;
         });
-    }
+   }
 
     trigger () {
         if (Tone.context.state !== 'running') {
@@ -69,7 +73,6 @@ export default class {
         }
 
         let schedule = (s) => setTimeout(() => {
-            console.log(s, "triggered");
             let note = Notes[Math.floor(Math.random() * Notes.length)];
             let octave = randInt(2, 5);
             s.triggerAttackRelease(
@@ -77,7 +80,7 @@ export default class {
                 randRange(.1, 1)
             );
             schedule(s);
-        }, randRange(100, 10000));
+        }, randRange(1000, 10000));
 
         this.synths.map(schedule);
     }
