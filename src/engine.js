@@ -1,6 +1,6 @@
 import Tone from 'tone';
 
-export const N = 4;
+export const N = 5;
 export const Notes = ["C", "G", "B", "E", "D"];
 
 
@@ -14,7 +14,7 @@ function randInt(a, b) {
 
 function randMonoSynthConfig () {
     return {
-        detune: randRange(-1, 1),
+        detune: randInt(-10, 10),
         oscillator: {
             type: "sawtooth"
         },
@@ -27,7 +27,7 @@ function randMonoSynthConfig () {
             attack: randRange(0.01, 0.10),
             decay: 0.10,
             sustain: 0.20,
-            release: randRange(5, 20)
+            release: randRange(10, 20)
         },
         filterEnvelope: {
             attack: randRange(0.01, 0.10),
@@ -35,7 +35,7 @@ function randMonoSynthConfig () {
             decay: 0.4,
             decayCurve: "exponential",
             sustain: 1.0,
-            release: randRange(5, 20),
+            release: randRange(5, 30),
             releaseCurve: "linear",
             baseFrequency: 20,
             octaves: 5
@@ -57,15 +57,14 @@ export default class {
         let schedule = (s) => setTimeout(() => {
             console.log(s, "triggered");
             let note = Notes[Math.floor(Math.random() * Notes.length)];
-            let octave = randInt(2, 6);
+            let octave = randInt(2, 5);
             s.triggerAttackRelease(
                 note + octave,
-                randRange(.1, .5)
+                randRange(.1, 1)
             );
             schedule(s);
         }, randRange(100, 10000));
 
         this.synths.map(schedule);
-        setTimeout(this.trigger.bind(this), randRange(10000, 20000));
     }
 }
