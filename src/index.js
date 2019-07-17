@@ -9,7 +9,7 @@ export class App extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            engine: new Engine()
+            engine: new Engine(),
         };
     }
     

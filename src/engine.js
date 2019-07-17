@@ -4,11 +4,11 @@ export const N = 5;
 export const Notes = ["C", "G", "B", "E", "D"];
 
 
-function randRange(a, b) {
+function randRange (a, b) {
     return a + Math.random() * (b - a);
 }
 
-function randInt(a, b) {
+function randInt (a, b) {
     return Math.floor(randRange(a, b));
 }
 
@@ -65,7 +65,11 @@ export default class {
             let synth = new Tone.DuoSynth(config).toMaster();
             return synth;
         });
-   }
+    }
+
+    setVolume (vol) {
+        
+    }
 
     trigger () {
         if (Tone.context.state !== 'running') {
