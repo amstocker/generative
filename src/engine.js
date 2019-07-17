@@ -1,11 +1,15 @@
 import Tone from 'tone';
 
-export const Multiplier = 1;
-export const Notes = ["C3", "G3", "B3", "C4", "E3", "D4"];
+export const N = 4;
+export const Notes = ["C", "G", "B", "E", "D"];
 
 
 function randRange(a, b) {
     return a + Math.random() * (b - a);
+}
+
+function randInt(a, b) {
+    return Math.floor(randRange(a, b));
 }
 
 function randMonoSynthConfig () {
@@ -26,7 +30,7 @@ function randMonoSynthConfig () {
             release: randRange(5, 20)
         },
         filterEnvelope: {
-            attack: randRange(0.01, 0.20),
+            attack: randRange(0.01, 0.10),
             attackCurve: "linear",
             decay: 0.4,
             decayCurve: "exponential",
@@ -42,8 +46,7 @@ function randMonoSynthConfig () {
 
 export default class {
     constructor () {
-        let len = Notes.length * Multiplier;
-        this.synths = Array(len).fill().map(() => new Tone.MonoSynth(randMonoSynthConfig()).toMaster());
+        this.synths = Array(N).fill().map(() => new Tone.MonoSynth(randMonoSynthConfig()).toMaster());
     }
 
     trigger () {
@@ -53,13 +56,16 @@ export default class {
 
         let schedule = (s) => setTimeout(() => {
             console.log(s, "triggered");
+            let note = Notes[Math.floor(Math.random() * Notes.length)];
+            let octave = randInt(2, 6);
             s.triggerAttackRelease(
-                Notes[Math.floor(Math.random() * Notes.length)],
+                note + octave,
                 randRange(.1, .5)
             );
             schedule(s);
         }, randRange(100, 10000));
 
         this.synths.map(schedule);
+        setTimeout(this.trigger.bind(this), randRange(10000, 20000));
     }
 }
