@@ -2,6 +2,7 @@ import Tone from 'tone';
 
 export const N = 5;
 export const Notes = ["C", "G", "B", "E", "D"];
+export const DefaultGain = 5;
 
 
 function randRange (a, b) {
@@ -62,7 +63,10 @@ export default class {
     constructor () {
         this.synths = Array(N).fill().map(() => {
             let config = randDuoSynthConfig();
-            let synth = new Tone.DuoSynth(config).toMaster();
+            let synth = new Tone.DuoSynth(config);
+            let gain = new Tone.Gain(DefaultGain);
+            synth.connect(gain);
+            gain.toMaster();
             return synth;
         });
     }
