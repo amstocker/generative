@@ -14,9 +14,9 @@ function randInt(a, b) {
 
 function randMonoSynthConfig () {
     return {
-        detune: randInt(-10, 10),
         oscillator: {
-            type: "sawtooth"
+            type: "sawtooth",
+            detune: randRange(-5, 5)
         },
         filter: {
             type: "bandpass",
@@ -24,13 +24,13 @@ function randMonoSynthConfig () {
             Q: randRange(1, 4)
         },
         envelope: {
-            attack: randRange(0.01, 0.10),
+            attack: randRange(0.01, 0.05),
             decay: 0.10,
             sustain: 0.20,
             release: randRange(10, 20)
         },
         filterEnvelope: {
-            attack: randRange(0.01, 0.10),
+            attack: randRange(0.01, 0.05),
             attackCurve: "linear",
             decay: 0.4,
             decayCurve: "exponential",
@@ -43,10 +43,24 @@ function randMonoSynthConfig () {
     };
 };
 
+function randDuoSynthConfig () {
+    return {
+        vibratoAmount: randRange(0.01, 0.5),
+        vibratoRate: randRange(.1, 1),
+        harmonicity: randRange(0.01, .1),
+        voice0: randMonoSynthConfig(),
+        voice1: randMonoSynthConfig()
+    };
+};
+
 
 export default class {
     constructor () {
-        this.synths = Array(N).fill().map(() => new Tone.MonoSynth(randMonoSynthConfig()).toMaster());
+        this.synths = Array(N).fill().map(() => {
+            let config = randDuoSynthConfig();
+            let synth = new Tone.DuoSynth(config).toMaster();
+            return synth;
+        });
     }
 
     trigger () {
